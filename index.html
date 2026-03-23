@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>免费起名 Agent APP</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand-badge">Agent APP</span>
+        <div>
+          <h1>免费起名 Agent</h1>
+          <p>五格数理 + 八字五行 + 国学字义智能起名</p>
+        </div>
+      </div>
+      <nav class="top-nav">
+        <a href="#hero">首页</a>
+        <a href="#form-section">开始起名</a>
+        <a href="#membership-section">会员权益</a>
+        <a href="#ops-section">运营面板</a>
+        <a href="#history-section">历史记录</a>
+        <a href="#ops-tools">导入导出</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="hero" class="hero section-card">
+        <div class="hero-copy">
+          <span class="eyebrow">智能五格起名 / 八字五行起名 / 国学知识库命名助手</span>
+          <h2>输入出生信息，即刻获得高匹配姓名方案、字义解析与五行适配建议。</h2>
+          <p>
+            当前版本继续推进为更完整的前端 MVP：除了首页、输入、结果、会员与历史记录，还加入了模拟注册登录、分层限额提醒、结果分享、历史查看、运营指标与评分配置面板。
+          </p>
+          <div class="scenario-switcher">
+            <button class="ghost-btn small scenario-btn" data-scenario="宝宝起名">宝宝起名</button>
+            <button class="ghost-btn small scenario-btn" data-scenario="成人改名">成人改名</button>
+            <button class="ghost-btn small scenario-btn" data-scenario="品牌命名">品牌命名</button>
+          </div>
+          <div class="hero-actions">
+            <button class="primary-btn" data-scroll-target="form-section">立即免费起名</button>
+            <button class="secondary-btn" data-scroll-target="results-section">查看起名示例</button>
+            <button class="ghost-btn" data-scroll-target="membership-section">开通会员解锁更多</button>
+          </div>
+        </div>
+        <aside class="hero-panel">
+          <div class="account-card">
+            <div class="account-topline">
+              <div>
+                <h3>账号中心</h3>
+                <p id="account-summary">未登录，生成后将提示注册以保存记录。</p>
+              </div>
+              <button id="auth-trigger" class="secondary-btn small">注册 / 登录</button>
+            </div>
+            <div class="status-grid compact">
+              <div>
+                <span>账号状态</span>
+                <strong id="account-status">访客</strong>
+              </div>
+              <div>
+                <span>手机号</span>
+                <strong id="account-mobile">未绑定</strong>
+              </div>
+            </div>
+          </div>
+          <div class="quota-card">
+            <h3>免费体验规则</h3>
+            <ul>
+              <li>一人一机一号总计 <span id="free-limit-label">6</span> 次免费</li>
+              <li>成功生成结果才计次</li>
+              <li>收藏、分享、查看历史记录不计次</li>
+              <li>次数用尽可购买次数包或开通会员</li>
+            </ul>
+          </div>
+          <div class="status-card">
+            <h3>当前账号状态</h3>
+            <div id="membership-summary" class="status-pill">免费用户</div>
+            <div class="status-grid">
+              <div>
+                <span>已使用</span>
+                <strong id="used-count">0 / 6</strong>
+              </div>
+              <div>
+                <span>剩余免费</span>
+                <strong id="remaining-count">6 次</strong>
+              </div>
+              <div>
+                <span>次数包</span>
+                <strong id="pack-count">0 次</strong>
+              </div>
+              <div>
+                <span>可生成数</span>
+                <strong id="candidate-limit">每次 6 个</strong>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="features section-card">
+        <div class="feature-item"><h3>免费智能起名</h3><p>结合姓氏、性别、出生信息与风格偏好生成候选名。</p></div>
+        <div class="feature-item"><h3>五格数理分析</h3><p>输出天格、人格、地格、外格、总格及三才配置评价。</p></div>
+        <div class="feature-item"><h3>八字五行适配</h3><p>基于五行偏向与喜用建议，给出贴合度说明。</p></div>
+        <div class="feature-item"><h3>国学字义解释</h3><p>展示单字含义、整体意象与命名推荐理由。</p></div>
+      </section>
+
+      <section id="form-section" class="section-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">页面 2 · 起名信息输入页</span>
+            <h2>开始生成名字</h2>
+            <p>出生时间越准确，分析越贴合。固定字与避用字可不填。</p>
+          </div>
+          <div id="quota-banner" class="quota-banner info">免费用户总计可体验 6 次完整起名。</div>
+        </div>
+
+        <form id="naming-form" class="naming-form">
+          <label>命名场景
+            <select name="scenario">
+              <option value="宝宝起名">宝宝起名</option>
+              <option value="成人改名">成人改名</option>
+              <option value="品牌命名">品牌命名</option>
+            </select>
+          </label>
+          <label>姓氏 *<input name="surname" type="text" maxlength="2" placeholder="请输入姓氏，例如：李" required /></label>
+          <label>性别 *
+            <select name="gender" required>
+              <option value="">请选择</option><option value="男">男</option><option value="女">女</option>
+            </select>
+          </label>
+          <label>出生日期 *<input name="birthDate" type="date" required /></label>
+          <label>出生时间 *<input name="birthTime" type="time" required /></label>
+          <label>出生地点<input name="birthPlace" type="text" placeholder="可选，例如：杭州" /></label>
+          <label>单名 / 双名
+            <select name="nameMode"><option value="双名">双名</option><option value="单名">单名</option></select>
+          </label>
+          <label>风格偏好
+            <select name="stylePreference">
+              <option value="文雅儒雅">文雅儒雅</option><option value="大气稳重">大气稳重</option><option value="清新灵秀">清新灵秀</option><option value="国学经典">国学经典</option><option value="简洁现代">简洁现代</option><option value="志向远大">志向远大</option><option value="大师定制">大师定制（会员专属）</option><option value="品牌创意">品牌创意（会员专属）</option>
+            </select>
+          </label>
+          <label>固定字<input name="fixedWord" type="text" maxlength="2" placeholder="可选，例如：安" /></label>
+          <label>避用字<input name="avoidWords" type="text" maxlength="4" placeholder="可选，例如：伟强" /></label>
+          <div class="form-actions">
+            <button type="submit" class="primary-btn">开始生成名字</button>
+            <button type="reset" class="secondary-btn" id="reset-form">重置信息</button>
+            <button type="button" class="ghost-btn" id="demo-fill-btn">填充示例数据</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="results-section" class="section-card hidden">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">页面 3 · 结果展示页</span>
+            <h2>已为您生成一组高匹配姓名方案</h2>
+            <p id="result-subtitle">以下名字根据姓氏、五行适配、五格数理与字义意象综合推荐。</p>
+          </div>
+          <div class="result-actions">
+            <button id="regenerate-btn" class="secondary-btn">再来一组</button>
+            <button id="report-btn" class="ghost-btn">查看深度报告</button>
+            <button id="share-btn" class="ghost-btn">分享结果</button>
+          </div>
+        </div>
+
+        <div class="usage-strip">
+          <span id="usage-text">您当前已使用 0/6 次，您还剩 6 次免费机会。</span>
+          <div class="inline-tools">
+            <label class="sort-label">排序
+              <select id="sort-select">
+                <option value="score">按综合评分</option>
+                <option value="wuge">按五格得分</option>
+                <option value="bazi">按八字得分</option>
+                <option value="name">按姓名字序</option>
+              </select>
+            </label>
+            <button class="ghost-btn small" data-scroll-target="membership-section">开通会员解锁更多</button>
+          </div>
+        </div>
+
+        <div id="compare-panel" class="compare-panel hidden"></div>
+        <div id="shortlist-panel" class="compare-panel hidden"></div>
+        <div id="results-grid" class="results-grid"></div>
+      </section>
+
+      <section id="report-section" class="section-card hidden">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">深度报告预览</span>
+            <h2>命名深度报告</h2>
+            <p>展示当前请求的推荐摘要、评分权重、Top3 名字与风险提醒，便于用户和家人共同决策。</p>
+          </div>
+          <div class="result-actions">
+            <button id="download-report-btn" class="primary-btn">下载 TXT 报告</button>
+            <button id="clear-shortlist-btn" class="ghost-btn">清空终选</button>
+          </div>
+        </div>
+        <div id="report-preview" class="report-grid"></div>
+      </section>
+
+      <section id="membership-section" class="section-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">页面 5 · 会员权益页</span>
+            <h2>免费版与会员版权益对比</h2>
+            <p>清楚说明免费版、次数包与会员版的使用差异，帮助用户快速决策。</p>
+          </div>
+        </div>
+
+        <div class="membership-table-wrapper">
+          <table class="membership-table">
+            <thead>
+              <tr><th>版本</th><th>可用次数</th><th>单次候选数量</th><th>深度分析</th><th>收藏/对比</th><th>报告下载</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>免费版</td><td>6 次总额度</td><td>6 个</td><td>基础版</td><td>支持</td><td>基础文本报告</td></tr>
+              <tr><td>3 次包</td><td>+3 次</td><td>6 个</td><td>基础版</td><td>支持</td><td>基础文本报告</td></tr>
+              <tr><td>10 次包</td><td>+10 次</td><td>8 个</td><td>增强版</td><td>支持</td><td>增强文本报告</td></tr>
+              <tr><td>月会员</td><td>不限免费额度，优先消耗会员权益</td><td>12 个</td><td>深度版</td><td>支持</td><td>支持</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="pricing-card"><h3>购买 3 次包</h3><p>适合短期补充体验。</p><strong>￥19</strong><button class="primary-btn buy-pack" data-pack="3">购买 3 次包</button></article>
+          <article class="pricing-card"><h3>购买 10 次包</h3><p>适合多风格、多时间反复比较。</p><strong>￥49</strong><button class="primary-btn buy-pack" data-pack="10">购买 10 次包</button></article>
+          <article class="pricing-card featured"><h3>开通月会员</h3><p>适合近期集中起名需求，解锁深度分析与更多候选名。</p><strong>￥99 / 月</strong><button class="primary-btn buy-membership" data-membership="month">开通月会员</button></article>
+          <article class="pricing-card"><h3>开通年会员</h3><p>适合全家多场景命名与长期记录。</p><strong>￥299 / 年</strong><button class="secondary-btn buy-membership" data-membership="year">开通年会员</button></article>
+        </div>
+      </section>
+
+      <section id="ops-section" class="section-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">运营与规则面板</span>
+            <h2>本地运营数据与评分参数配置</h2>
+            <p>用于模拟后台分析与规则调优，帮助你验证“免费体验 → 结果价值 → 转化”的产品闭环。</p>
+          </div>
+        </div>
+
+        <div class="ops-grid">
+          <div class="metrics-grid">
+            <article class="metric-card"><span>累计生成</span><strong id="metric-generations">0</strong></article>
+            <article class="metric-card"><span>收藏次数</span><strong id="metric-favorites">0</strong></article>
+            <article class="metric-card"><span>支付订单</span><strong id="metric-orders">0</strong></article>
+            <article class="metric-card"><span>额度用尽率</span><strong id="metric-exhausted">0%</strong></article>
+            <article class="metric-card"><span>分享次数</span><strong id="metric-shares">0</strong></article>
+            <article class="metric-card"><span>转化率</span><strong id="metric-conversion">0%</strong></article>
+          </div>
+
+          <form id="config-form" class="config-form">
+            <h3>评分与额度配置</h3>
+            <label>五格权重（%）<input name="weightWuge" type="number" min="5" max="50" step="1" /></label>
+            <label>八字权重（%）<input name="weightBazi" type="number" min="5" max="50" step="1" /></label>
+            <label>字义权重（%）<input name="weightMeaning" type="number" min="5" max="40" step="1" /></label>
+            <label>免费次数上限<input name="freeQuota" type="number" min="1" max="20" step="1" /></label>
+            <div class="form-actions">
+              <button type="submit" class="primary-btn">保存配置</button>
+              <button type="button" id="reset-config-btn" class="ghost-btn">恢复默认</button>
+              <button type="button" id="package-data-btn" class="secondary-btn">打包演示数据</button>
+              <button type="button" id="export-state-btn" class="ghost-btn">导出演示数据</button>
+              <button type="button" id="import-state-btn" class="ghost-btn">导入演示数据</button>
+              <input id="import-state-file" type="file" accept="application/json" class="hidden" />
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="ops-tools" class="section-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">演示数据工具</span>
+            <h2>本地数据导入 / 导出</h2>
+            <p>方便在评审、演示或交接时快速保存当前本地数据，或导入另一份演示配置与运营数据。</p>
+          </div>
+        </div>
+        <div class="tool-grid">
+          <article class="metric-card"><span>支持内容</span><strong>账号 / 历史 / 配置</strong><p>包含会员状态、收藏、订单、额度流水、运营指标与规则配置。</p></article>
+          <article class="metric-card"><span>建议用途</span><strong>产品评审 / 演示复现</strong><p>可把某次演示过程完整导出，再在另一台设备导入恢复。</p></article>
+          <article class="metric-card"><span>当前可打包数据</span><strong id="package-summary-count">0 条记录</strong><p id="package-summary-detail">生成过名字后，即可把历史记录、收藏、订单、配置与报告快照一起打包。</p><p id="package-last-exported">最近打包：尚未打包</p></article>
+          <article class="metric-card"><span>交付格式</span><strong>结构化 JSON 数据包</strong><p>适合产品评审、交接存档或后续导入脚本继续处理。</p></article>
+          <article class="metric-card"><span>迁移调试</span><strong id="package-migration-status">尚未导入</strong><p id="package-migration-detail">导入旧版数据包或原始状态文件后，这里会显示迁移结果与 schema 信息。</p></article>
+        </div>
+      </section>
+
+      <section id="faq-section" class="section-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">常见问题</span>
+            <h2>体验前你可能关心的问题</h2>
+            <p>补充产品规则、会员说明与结果理解方式，降低首次使用门槛。</p>
+          </div>
+        </div>
+        <div class="features">
+          <div class="feature-item"><h3>免费次数如何计算？</h3><p>只有成功生成一组新结果时才计次；收藏、分享、查看历史记录不计次。</p></div>
+          <div class="feature-item"><h3>为什么有会员专属风格？</h3><p>用于承载更高价值的专家式命名体验，也便于验证高阶转化链路。</p></div>
+          <div class="feature-item"><h3>结果为什么带风险提示？</h3><p>为帮助用户避免谐音、生僻字和书写成本问题，让候选名更实用。</p></div>
+          <div class="feature-item"><h3>导入导出数据有什么用？</h3><p>方便演示复现、跨设备评审与产品交接时保留完整本地状态。</p></div>
+        </div>
+      </section>
+
+      <section id="history-section" class="section-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">页面 6 · 历史记录页</span>
+            <h2>历史记录与收藏</h2>
+            <p>查看历史起名记录、收藏名字、对比结果、额度流水与订单信息。</p>
+          </div>
+          <button id="reset-app-btn" class="ghost-btn">清空本地演示数据</button>
+        </div>
+
+        <div class="history-layout four-columns">
+          <div><h3>历史起名记录</h3><div id="history-list" class="list-panel empty-state">暂无历史记录，先生成一组名字吧。</div></div>
+          <div><h3>收藏名字</h3><div id="favorites-list" class="list-panel empty-state">暂无收藏名字。</div></div>
+          <div><h3>订单记录</h3><div id="orders-list" class="list-panel empty-state">暂无订单记录。</div></div>
+          <div><h3>额度流水</h3><div id="quota-log-list" class="list-panel empty-state">暂无额度流水。</div></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">本系统提供基于五格数理、八字五行及知识库字义分析的智能命名建议，结果仅供参考。免费起名服务采用“一人一机一号总计 6 次”的体验规则。平台将综合账号、手机号、设备信息与行为特征识别异常重复领取行为。</footer>
+
+    <div id="paywall-modal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal="true"></div>
+      <div class="modal-content">
+        <button class="modal-close" data-close-modal="true" aria-label="关闭">×</button>
+        <span class="eyebrow">页面 4 · 收费弹窗页</span>
+        <h2 id="modal-title">您的免费起名次数已用完</h2>
+        <p id="modal-description">您的一人一机一号共 6 次免费体验机会已使用完毕。继续生成更多名字、查看更深分析、解锁完整版报告，请开通付费服务。</p>
+        <div class="modal-actions stacked">
+          <button class="primary-btn buy-pack" data-pack="3">购买 3 次包</button>
+          <button class="secondary-btn buy-pack" data-pack="10">购买 10 次包</button>
+          <button class="primary-btn buy-membership" data-membership="month">开通月会员</button>
+          <button class="ghost-btn" data-close-modal="true">稍后再说</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="auth-modal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close-auth="true"></div>
+      <div class="modal-content narrow">
+        <button class="modal-close" data-close-auth="true" aria-label="关闭">×</button>
+        <span class="eyebrow">注册 / 登录</span>
+        <h2>保存起名记录并继续体验</h2>
+        <p>这是前端演示版账号系统，用于模拟注册登录、绑定手机号与保存记录。</p>
+        <form id="auth-form" class="auth-form">
+          <label>用户昵称<input name="nickname" type="text" maxlength="12" placeholder="例如：宝宝妈妈" required /></label>
+          <label>手机号<input name="mobile" type="tel" maxlength="11" placeholder="请输入 11 位手机号" required /></label>
+          <div class="form-actions">
+            <button type="submit" class="primary-btn">保存并登录</button>
+            <button type="button" class="ghost-btn" data-close-auth="true">稍后再说</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <template id="result-card-template">
+      <article class="result-card">
+        <div class="card-topline"><div><h3 class="candidate-name"></h3><p class="candidate-pinyin"></p></div><div class="score-badge"></div></div>
+        <div class="tag-row"></div>
+        <div class="summary-grid">
+          <div><span>五格</span><strong class="wuge-summary"></strong></div>
+          <div><span>八字</span><strong class="bazi-summary"></strong></div>
+          <div><span>推荐理由</span><strong class="recommend-summary"></strong></div>
+        </div>
+        <div class="card-actions">
+          <button class="ghost-btn small action-expand">查看完整分析</button>
+          <button class="ghost-btn small action-favorite">收藏此名</button>
+          <button class="ghost-btn small action-compare">加入对比</button>
+          <button class="ghost-btn small action-shortlist">加入终选</button>
+        </div>
+        <div class="details hidden"></div>
+      </article>
+    </template>
+
+    <script src="logic.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
