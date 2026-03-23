@@ -39,11 +39,19 @@ http://127.0.0.1:8000
 
 如果你需要一个可交付的 zip 包，请直接运行：
 
+macOS / Linux:
+
 ```bash
 ./scripts/build-local-archive.sh
 ```
 
-脚本会在仓库根目录生成 `free-naming-agent-local.zip`。之所以改成脚本生成，而不是把 zip 直接提交进仓库，是因为很多仓库界面对二进制压缩包只会显示“二进制文件不支持预览”，不利于交付查看。
+Windows PowerShell:
+
+```powershell
+./scripts/build-local-archive.ps1
+```
+
+如果你的环境里没有 `zip` 命令，也没关系；脚本已经改为通过 Python 标准库生成压缩包。成功后会在仓库根目录生成 `free-naming-agent-local.zip`。之所以改成脚本生成，而不是把 zip 直接提交进仓库，是因为很多仓库界面对二进制压缩包只会显示“二进制文件不支持预览”，不利于交付查看。
 
 ## 当前已实现功能
 
@@ -91,7 +99,9 @@ http://127.0.0.1:8000
 
 - `index.html`：页面结构与核心模块
 - `logic.js`：状态归一化、数据打包与标准数据包导入解析等纯逻辑模块
+- `scripts/build-local-archive.py`：跨平台生成本地 zip 包的主脚本
 - `scripts/build-local-archive.sh`：一键生成本地交付 zip 包的脚本
+- `scripts/build-local-archive.ps1`：Windows PowerShell 打包脚本
 - `styles.css`：界面样式与响应式布局
 - `app.js`：业务逻辑、状态管理、名字生成、付费、账号、运营面板与历史记录交互
 - `tests/logic.mjs`：纯逻辑行为测试

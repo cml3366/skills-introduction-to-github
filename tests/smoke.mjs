@@ -6,6 +6,8 @@ const logic = readFileSync(new URL('../logic.js', import.meta.url), 'utf8');
 const integration = readFileSync(new URL('./app.integration.mjs', import.meta.url), 'utf8');
 const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8');
 const packageScript = readFileSync(new URL('../scripts/build-local-archive.sh', import.meta.url), 'utf8');
+const packageScriptPy = readFileSync(new URL('../scripts/build-local-archive.py', import.meta.url), 'utf8');
+const packageScriptPs1 = readFileSync(new URL('../scripts/build-local-archive.ps1', import.meta.url), 'utf8');
 
 const checks = [
   ['index has ops panel', index.includes('id="ops-section"')],
@@ -18,12 +20,13 @@ const checks = [
   ['logic module has package helpers', logic.includes('function buildDataBundle(state') && logic.includes('function migrateImportedData(parsed)') && logic.includes('function isSupportedBundleSchema(parsed)')],
   ['app gates test api behind explicit flag', app.includes('window.__FREE_NAMING_ENABLE_TEST_API__ === true') && app.includes('window.__FREE_NAMING_TEST_API__')],
   ['integration test covers package flow', integration.includes('api.packageData()') && integration.includes('await api.importState(') && integration.includes('__FREE_NAMING_ENABLE_TEST_API__: true')],
-  ['package script exists', packageScript.includes('free-naming-agent-local.zip') && packageScript.includes('zip -r')],
+  ['package scripts exist', packageScript.includes('build-local-archive.py') && packageScriptPy.includes('ZipFile') && packageScriptPs1.includes('build-local-archive.py')],
   ['readme mentions ops/config layer', readme.includes('本地运营指标面板与评分权重配置')],
   ['readme mentions packaged bundle export', readme.includes('一键打包本地演示数据')],
   ['readme mentions packaged bundle re-import', readme.includes('已支持回导标准数据包')],
   ['readme mentions migration debugging', readme.includes('迁移调试')],
   ['readme mentions package script', readme.includes('./scripts/build-local-archive.sh')],
+  ['readme mentions Windows package script', readme.includes('./scripts/build-local-archive.ps1')],
   ['readme mentions shared logic testability', readme.includes('可复用逻辑模块')],
   ['readme mentions app integration test', readme.includes('tests/app.integration.mjs')],
   ['readme mentions schema version guard', readme.includes('schema 版本校验')],
