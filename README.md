@@ -1,75 +1,109 @@
-<header>
+# 免费起名 Agent APP MVP
 
-<!--
-  <<< Author notes: Course header >>>
-  Include a 1280×640 image, course title in sentence case, and a concise description in emphasis.
-  In your repository settings: enable template repository, add your 1280×640 social image, auto delete head branches.
-  Add your open source license, GitHub uses MIT license.
--->
+一个可直接在浏览器中运行的“免费起名 Agent”最小可用版本，当前已经从静态原型继续推进为**更完整的交互式前端 MVP**，并新增了本地运营面板与评分配置能力。
 
-# Introduction to GitHub
+## 当前覆盖的核心流程
 
-_Get started using GitHub in less than an hour._
+- 首页引流入口
+- 起名信息输入页
+- 结果展示页
+- 6 次免费额度控制
+- 剩余 2 次 / 1 次 / 0 次分层提醒
+- 收费弹窗与次数包 / 会员购买
+- 模拟注册登录与本地账号保存
+- 收藏、对比、历史记录、额度流水
+- 基础文本报告导出与结果分享
+- 本地运营指标面板与评分权重配置
 
-</header>
+## 运行方式
 
-<!--
-  <<< Author notes: Step 1 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
--->
+这是一个纯前端静态原型，无需安装依赖。
 
-## Step 1: Create a branch
+### 方式一：直接打开
 
-_Welcome to "Introduction to GitHub"! :wave:_
+直接用浏览器打开 `index.html` 即可体验。
 
-**What is GitHub?**: GitHub is a collaboration platform that uses _[Git](https://docs.github.com/get-started/quickstart/github-glossary#git)_ for versioning. GitHub is a popular place to share and contribute to [open-source](https://docs.github.com/get-started/quickstart/github-glossary#open-source) software.
-<br>:tv: [Video: What is GitHub?](https://www.youtube.com/watch?v=pBy1zgt0XPc)
+### 方式二：本地启动静态服务
 
-**What is a repository?**: A _[repository](https://docs.github.com/get-started/quickstart/github-glossary#repository)_ is a project containing files and folders. A repository tracks versions of files and folders. For more information, see "[About repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories)" from GitHub Docs.
+```bash
+python3 -m http.server 8000 --bind 127.0.0.1
+```
 
-**What is a branch?**: A _[branch](https://docs.github.com/en/get-started/quickstart/github-glossary#branch)_ is a parallel version of your repository. By default, your repository has one branch named `main` and it is considered to be the definitive branch. Creating additional branches allows you to copy the `main` branch of your repository and safely make any changes without disrupting the main project. Many people use branches to work on specific features without affecting any other parts of the project.
+然后访问：
 
-Branches allow you to separate your work from the `main` branch. In other words, everyone's work is safe while you contribute. For more information, see "[About branches](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches)".
+```text
+http://127.0.0.1:8000
+```
 
-**What is a profile README?**: A _[profile README](https://docs.github.com/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)_ is essentially an "About me" section on your GitHub profile where you can share information about yourself with the community on GitHub.com. GitHub shows your profile README at the top of your profile page. For more information, see "[Managing your profile README](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)".
+### 方式三：本地打包项目压缩包
 
-![profile-readme-example](/images/profile-readme-example.png)
+如果你需要一个可交付的 zip 包，请直接运行：
 
-### :keyboard: Activity: Your first branch
+```bash
+./scripts/build-local-archive.sh
+```
 
-1. Open a new browser tab and navigate to your newly made repository. Then, work on the steps in your second tab while you read the instructions in this tab.
-2. Navigate to the **< > Code** tab in the header menu of your repository.
+脚本会在仓库根目录生成 `free-naming-agent-local.zip`。之所以改成脚本生成，而不是把 zip 直接提交进仓库，是因为很多仓库界面对二进制压缩包只会显示“二进制文件不支持预览”，不利于交付查看。
 
-   ![code-tab](/images/code-tab.png)
+## 当前已实现功能
 
-3. Click on the **main** branch drop-down.
+### 用户体验层
 
-   ![main-branch-dropdown](/images/main-branch-dropdown.png)
+- 首页 Hero 区、卖点区、规则区与立即体验入口
+- 起名输入表单：姓氏、性别、出生日期、出生时间、出生地、单双名、风格偏好、固定字、避用字
+- 结果页：候选名卡片、综合评分、五格摘要、八字适配说明、完整分析展开、排序切换
+- 会员权益页：免费版、次数包、月会员、年会员对比
+- 历史记录页：历史起名记录、收藏名字、订单记录、额度流水
+- 模拟注册 / 登录弹窗，用于保存昵称与手机号
 
-4. In the field, name your branch `my-first-branch`. In this case, the name must be `my-first-branch` to trigger the course workflow.
-5. Click **Create branch: my-first-branch** to create your branch.
+### 核心业务层
 
-   ![create-branch-button](/images/create-branch-button.png)
+- 一人一端免费额度模拟，且免费次数上限可在本地配置
+- 剩余 2 次 / 1 次 / 0 次时的分层提示
+- 次数包购买与会员开通
+- 收藏名字与最多 3 个名字对比
+- 历史记录“查看结果 / 再次生成 / 删除记录”
+- 基础深度报告下载（TXT）
+- 结果分享（支持 Web Share，或复制文案到剪贴板）
+- 一键打包本地演示数据，输出可交付的结构化 JSON 数据包
 
-   The branch will automatically switch to the one you have just created.
-   The **main** branch drop-down bar will reflect your new branch and display the new branch name.
+### 运营与规则层
 
-6. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
+- 本地运营指标：累计生成、收藏次数、支付订单、额度用尽率、分享次数、转化率
+- 本地规则配置：五格 / 八字 / 字义权重与免费次数上限
+- 配置保存后会立即影响下一次候选名综合评分与额度展示
+- 支持将账号、历史、收藏、订单、额度流水、规则配置与报告快照统一打包导出
+- 已支持回导标准数据包，打包文件可在另一台设备直接导入恢复演示状态
+- 新增迁移调试展示，可区分“原样导入”“旧包迁移导入”“原始状态迁移导入”
 
-<footer>
+### 技术实现说明
 
-<!--
-  <<< Author notes: Footer >>>
-  Add a link to get support, GitHub status page, code of conduct, license link.
--->
+- 所有状态保存在浏览器 `localStorage`
+- 名字生成、五格评分、八字适配与风险提示为前端模拟逻辑
+- 适合作为下一步接入真实后端接口与数据库前的交互 MVP
+- 已加入兼容性更好的请求 ID 生成兜底逻辑，不再强依赖 `crypto.randomUUID`
+- 对本地 `localStorage` 状态增加了安全解析兜底，异常数据不会导致页面初始化失败
+- 已抽出 `logic.js` 作为可复用逻辑模块，用于承载状态归一化、数据打包与回导解析，并支持 Node 侧行为测试
+- 标准数据包增加了 schema 版本校验；测试 API 也改为显式开关，仅在测试环境启用
+- 导入流程增加迁移调试信息，便于排查旧版数据包与原始状态文件的兼容性问题
 
----
+## 文件说明
 
-Get help: [Post in our discussion board](https://github.com/orgs/skills/discussions/categories/introduction-to-github) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
+- `index.html`：页面结构与核心模块
+- `logic.js`：状态归一化、数据打包与标准数据包导入解析等纯逻辑模块
+- `scripts/build-local-archive.sh`：一键生成本地交付 zip 包的脚本
+- `styles.css`：界面样式与响应式布局
+- `app.js`：业务逻辑、状态管理、名字生成、付费、账号、运营面板与历史记录交互
+- `tests/logic.mjs`：纯逻辑行为测试
+- `tests/app.integration.mjs`：无浏览器集成测试，覆盖打包与数据包回导流程
+- `docs/page-prototype-copy.md`：页面文案原型说明
+- `docs/technical-spec.md`：数据库、接口与评分模型设计稿
 
-&copy; 2024 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
+## 下一步建议
 
-</footer>
+如需继续升级为正式版本，建议按以下顺序推进：
+
+1. 接入真实用户注册登录、短信验证与设备指纹风控
+2. 接入后端起名引擎、字库与八字 / 五格算法
+3. 接入真实支付、会员、订单与报告下载
+4. 补充后台管理系统与真实数据埋点统计
